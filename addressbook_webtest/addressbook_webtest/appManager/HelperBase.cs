@@ -14,12 +14,36 @@ namespace WebAddressbookTests
     {
         protected IWebDriver driver;
         protected ApplicationManager manager;
-
+        
         public HelperBase(ApplicationManager manager)//конструктор хелпера
         {
             this.manager = manager;
             this.driver = manager.Driver;
 
         }
+
+
+        public string CloseAlertAndGetItsText(bool acceptNextAlert)
+        {
+            try
+            {
+                IAlert alert = driver.SwitchTo().Alert();
+                string alertText = alert.Text;
+                if (acceptNextAlert)
+                {
+                    alert.Accept();
+                }
+                else
+                {
+                    alert.Dismiss();
+                }
+                return alertText;
+            }
+            finally
+            {
+                acceptNextAlert = true;
+            }
+        }
+
     }
 }
