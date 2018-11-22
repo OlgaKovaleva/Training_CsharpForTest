@@ -27,7 +27,7 @@ namespace WebAddressbookTests
         {
             
             driver = new FirefoxDriver();
-            baseURL = "http://localhost";
+            baseURL = "http://localhost:8080";
 
             //код инициализации хелперов
             loginHelper = new LoginHelper(this); //код, создающий хелпер
