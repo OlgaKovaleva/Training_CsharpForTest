@@ -11,6 +11,8 @@ using OpenQA.Selenium.Support.UI;
 
 namespace WebAddressbookTests
 {
+    //public static ApplicationManager app; 
+
     [SetUpFixture]
     public class TestSuiteFixture
     {

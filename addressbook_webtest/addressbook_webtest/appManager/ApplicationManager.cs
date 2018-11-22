@@ -20,7 +20,7 @@ namespace WebAddressbookTests
         protected NavigationHelper navigationHelper; //объявление переменной для хелпера
         protected GroupHelper groupHelper;
         protected ContactHelper contactHelper;
-        private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>(); //конструкция помогает организовать параллельный запуск тестов
+        private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>(); //специальный объект, который будет утсанавливать соответствие между текущим потоком и типом ApplicationManager
 
 
         private ApplicationManager()//конструктор
