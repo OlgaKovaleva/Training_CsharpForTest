@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
@@ -19,11 +20,12 @@ namespace WebAddressbookTests
         protected NavigationHelper navigationHelper; //объявление переменной для хелпера
         protected GroupHelper groupHelper;
         protected ContactHelper contactHelper;
+        private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>(); //конструкция помогает организовать параллельный запуск тестов
 
-        
-        public ApplicationManager()//конструктор
+
+        private ApplicationManager()//конструктор
         {
-
+            
             driver = new FirefoxDriver();
             baseURL = "http://localhost";
 
@@ -34,7 +36,7 @@ namespace WebAddressbookTests
             contactHelper = new ContactHelper(this);
         }
 
-        public void Stop()
+         ~ApplicationManager()//деструктор, используется вместо  Stop для остановки потока; вызывается автоматически, поэтому не нужно писать модификатор видимости  к нему
         {
             try
             {
@@ -44,9 +46,19 @@ namespace WebAddressbookTests
             {
                 // Ignore errors if unable to close the browser
             }
-
         }
 
+        public static ApplicationManager GetInstance()
+        {
+            if (! app.IsValueCreated)
+            {
+                app.Value = new ApplicationManager();
+            }
+
+            return app.Value;
+        }
+
+      
         public LoginHelper Auth
         {
             get

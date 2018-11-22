@@ -18,17 +18,10 @@ namespace WebAddressbookTests
         [SetUp]
         protected void SetupTest()
         {
-            app = new ApplicationManager();
-            app.Navigator.OpenHomePage();
-            app.Auth.Login(new AccountData("admin", "secret"));
+            ApplicationManager app = ApplicationManager.GetInstance();
 
         }
 
-        [TearDown]
-        protected void TeardownTest()
-        {
-            app.Stop();
-        }
- 
+        
     }
 }
