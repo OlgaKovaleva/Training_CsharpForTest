@@ -30,6 +30,14 @@ namespace WebAddressbookTests
         public ContactHelper Modify(int index, ContactData contact)
         {
             manager.Navigator.OpenHomePage();
+           if (! IsElementPresent(By.Name("entry"))) 
+            {
+                InitContactCreation();
+                ContactData contactData = new ContactData("FirstName new", "LastName new");
+                FillContactForm(contactData);
+                SubmitContactForm();
+            }
+            SelectContact(index);
             InitContactModification(index);
             FillContactForm(contact);
             UpdateContactForm();
@@ -39,6 +47,13 @@ namespace WebAddressbookTests
         public ContactHelper Remove(int index, bool removalConfirmation)
         {
             manager.Navigator.OpenHomePage();
+            if (!IsElementPresent(By.Name("entry")))
+            {
+                InitContactCreation();
+                ContactData contactData = new ContactData("FirstName new", "LastName new");
+                FillContactForm(contactData);
+                SubmitContactForm();
+            }
             SelectContact(index);
             InitContactRemoval();
             ConfirmContactRemoval(removalConfirmation);
@@ -94,6 +109,7 @@ namespace WebAddressbookTests
 
         public ContactHelper InitContactModification(int index)
         {
+            
             driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + index + "]")).Click();
             return this;
         }

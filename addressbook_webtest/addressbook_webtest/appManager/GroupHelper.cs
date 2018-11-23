@@ -28,12 +28,23 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public GroupHelper Modify(int index, GroupData group)
+        public GroupHelper Modify(int index, GroupData groupUpdated)
         {
             manager.Navigator.OpenGroupsPage();
+            if (! IsElementPresent(By.ClassName("group")))
+            {
+                InitGroupCreation();
+                GroupData group = new GroupData("group_name new");
+                group.Header = "group_header new";
+                group.Footer = "group_footer new";
+                FillGroupForm(group);
+                SubmitGroupCreation();
+                ReturnToGroupPage();
+
+            }
             SelectGroup(index);
             InitGroupModification();
-            FillGroupForm(group);
+            FillGroupForm(groupUpdated);
             SubmitGroupModification();
             ReturnToGroupPage();
             return this;
@@ -42,6 +53,17 @@ namespace WebAddressbookTests
         public GroupHelper Remove(int index)
         {
             manager.Navigator.OpenGroupsPage();
+            if (!IsElementPresent(By.ClassName("group")))
+            {
+                InitGroupCreation();
+                GroupData group = new GroupData("group_name new");
+                group.Header = "group_header new";
+                group.Footer = "group_footer new";
+                FillGroupForm(group);
+                SubmitGroupCreation();
+                ReturnToGroupPage();
+
+            }
             SelectGroup(index);
             RemoveGroup();
             ReturnToGroupPage();

@@ -27,6 +27,7 @@ namespace WebAddressbookTests
         {
             
             driver = new FirefoxDriver();
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
             baseURL = "http://localhost:8080";
 
             //код инициализации хелперов
