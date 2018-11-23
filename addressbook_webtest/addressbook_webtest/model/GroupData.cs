@@ -6,11 +6,33 @@ using System.Threading.Tasks;
 
 namespace WebAddressbookTests
 {
-   public class GroupData
+   public class GroupData : IEquatable<GroupData> //объект типа GroupData можно сравнивать с другими объектами такого типа
     {
         private string name;
         private string header;
         private string footer;
+
+        public bool Equals(GroupData other)
+        {
+            if (Object.ReferenceEquals(other, null))
+            {
+                return false;
+            }
+
+            if (Object.ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            return Name == other.Name;
+        }
+
+        public int GetHashCode()//сначала для сравниваемых элементов получаются хешкоды и сравниваются хешкоды. если хешкоды разные, то сразу автоматически считается, что элементы не равны. если хешкоды совпали, то только тогда начинается более точное сравнение при помощи equals
+
+        {
+            return Name.GetHashCode();
+
+        }
 
         public GroupData(string name)
         {

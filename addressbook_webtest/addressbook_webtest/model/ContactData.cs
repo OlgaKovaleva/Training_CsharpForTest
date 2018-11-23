@@ -31,6 +31,7 @@ namespace WebAddressbookTests
         private string notesSecondary;
         private string photo;
 
+    
 
         public ContactData (string firstName, string lastName)
         {
