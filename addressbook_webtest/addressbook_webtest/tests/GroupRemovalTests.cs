@@ -17,14 +17,19 @@ namespace WebAddressbookTests
         {
             
             app.Navigator.OpenGroupsPage();
-
             List<GroupData> oldGroups = app.Groups.GetGroupList();
+            GroupData toBeRemoved = oldGroups[0];
 
             app.Groups.Remove(0);
-
+            Assert.AreEqual(oldGroups.Count-1, app.Groups.GetGroupCount());
             List<GroupData> newGroups = app.Groups.GetGroupList();
             oldGroups.RemoveAt(0); //удалить первый элемент с указателем 0
             Assert.AreEqual(oldGroups, newGroups); //сравниваем не размеры, а сами списки
+            foreach (GroupData group in newGroups)
+            {
+                Assert.AreNotEqual(group.Id, toBeRemoved.Id);
+            }
+
         }
      
     }

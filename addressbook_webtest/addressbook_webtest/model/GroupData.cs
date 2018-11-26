@@ -89,5 +89,7 @@ namespace WebAddressbookTests
                 footer = value;
             }
         }
+
+        public string Id { get; set; }
     }
 }

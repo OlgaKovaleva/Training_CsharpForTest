@@ -19,15 +19,15 @@ namespace WebAddressbookTests
             
         }
 
-        public List<ContactData> GetContactList()
+       public List<ContactData> GetContactList()
         {
             List<ContactData> contacts = new List<ContactData>();
             manager.Navigator.OpenHomePage();
             ICollection<IWebElement> elements = driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[2]/td[2]")); //ICollection это более общий тип в отличие от списка
             foreach (IWebElement element in elements)
-            {
+           {
                 
-                contacts.Add(new ContactData() {FirstName= element.Text, LastName=element.Text });//выбирает текст элемента и помещает в объект типа GroupData
+               contacts.Add(new ContactData() {FirstName= element.Text, LastName=element.Text });//выбирает текст элемента и помещает в объект типа GroupData
 
               
             }

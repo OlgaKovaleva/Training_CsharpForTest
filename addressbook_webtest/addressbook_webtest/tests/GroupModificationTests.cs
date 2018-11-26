@@ -17,14 +17,24 @@ namespace WebAddressbookTests
             newGroupData.Footer = "group_footer new3";
 
             List<GroupData> oldGroups = app.Groups.GetGroupList();
+            GroupData oldData = oldGroups[0];
 
             app.Groups.Modify(0, newGroupData);
+            Assert.AreEqual(oldGroups.Count, app.Groups.GetGroupCount());
 
             List<GroupData> newGroups = app.Groups.GetGroupList();
             oldGroups[0].Name = newGroupData.Name;
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups.Count, newGroups.Count);
+
+            foreach (GroupData group in newGroups)
+            {
+                if(group.Id==oldData.Id)
+                {
+                    Assert.AreEqual(newGroupData.Name, group.Name);// сначала указываем ожидаемый результат, а затем фактический
+                }
+            }
         }
     }
 }
