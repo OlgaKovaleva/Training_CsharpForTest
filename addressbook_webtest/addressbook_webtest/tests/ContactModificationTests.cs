@@ -13,9 +13,13 @@ namespace WebAddressbookTests
         [Test]
         public void ContactModificationTest()
         {
+            
+
             ContactData newContactData = new ContactData("updated FirstName new", "updated LastName new");
+
             app.Contacts.Modify(1, newContactData);
-            app.Auth.Logout();
+
+      
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace WebAddressbookTests
 
@@ -15,8 +15,16 @@ namespace WebAddressbookTests
 
             newGroupData.Header = "group_header new3";
             newGroupData.Footer = "group_footer new3";
+
+            List<GroupData> oldGroups = app.Groups.GetGroupList();
+
             app.Groups.Modify(0, newGroupData);
-            app.Auth.Logout();
+
+            List<GroupData> newGroups = app.Groups.GetGroupList();
+            oldGroups[0].Name = newGroupData.Name;
+            oldGroups.Sort();
+            newGroups.Sort();
+            Assert.AreEqual(oldGroups.Count, newGroups.Count);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 
 namespace WebAddressbookTests
@@ -15,8 +16,16 @@ namespace WebAddressbookTests
         public void ContactCreationTest()
         {
             ContactData contact = new ContactData("FirstName new", "LastName new");
+
+            List<ContactData> oldContacts = app.Contacts.GetContactList();
+
             app.Contacts.Create(contact);
-            app.Auth.Logout();
+
+            List<ContactData> newContacts = app.Contacts.GetContactList();
+            oldContacts.Add(contact);
+            oldContacts.Sort();
+            newContacts.Sort();
+            Assert.AreEqual(oldContacts.Count, newContacts.Count);
         }
 
     }
