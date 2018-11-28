@@ -57,17 +57,6 @@ namespace WebAddressbookTests
         public GroupHelper Modify(int index, GroupData groupUpdated)
         {
             manager.Navigator.OpenGroupsPage();
-            if (! IsElementPresent(By.ClassName("group")))
-            {
-                InitGroupCreation();
-                GroupData group = new GroupData("group_name new");
-                group.Header = "group_header new";
-                group.Footer = "group_footer new";
-                FillGroupForm(group);
-                SubmitGroupCreation();
-                ReturnToGroupPage();
-
-            }
             SelectGroup(index);
             InitGroupModification();
             FillGroupForm(groupUpdated);
@@ -84,17 +73,6 @@ namespace WebAddressbookTests
         public GroupHelper Remove(int index)
         {
             manager.Navigator.OpenGroupsPage();
-            if (!IsElementPresent(By.ClassName("group")))
-            {
-                InitGroupCreation();
-                GroupData group = new GroupData("group_name new");
-                group.Header = "group_header new";
-                group.Footer = "group_footer new";
-                FillGroupForm(group);
-                SubmitGroupCreation();
-                ReturnToGroupPage();
-
-            }
             SelectGroup(index);
             RemoveGroup();
             ReturnToGroupPage();
@@ -160,6 +138,12 @@ namespace WebAddressbookTests
         {
             driver.FindElement(By.Name("edit")).Click();
             return this;
+        }
+
+        public bool CheckGroupExistence()
+        {
+            return IsElementPresent(By.ClassName("group"));
+            
         }
     }
 }

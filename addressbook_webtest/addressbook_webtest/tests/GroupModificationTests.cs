@@ -1,6 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using System.Collections.Generic;
+using OpenQA.Selenium;
 
 namespace WebAddressbookTests
 
@@ -11,19 +12,29 @@ namespace WebAddressbookTests
         [Test]
         public void GroupModificationTest()
         {
-            GroupData newGroupData = new GroupData("group_name new3");
+            
+            if (! app.Groups.CheckGroupExistence())
+            {
+                GroupData group = new GroupData("group_name new");
+                group.Header = "group_header new";
+                group.Footer = "group_footer new";
+                app.Groups.Create(group);
+                
+            }
+            GroupData updatedGroup = new GroupData("Updated group_name new3");
 
-            newGroupData.Header = "group_header new3";
-            newGroupData.Footer = "group_footer new3";
+            updatedGroup.Header = "Updated group_header new3";
+            updatedGroup.Footer = "Updated group_footer new3";
 
             List<GroupData> oldGroups = app.Groups.GetGroupList();
             GroupData oldData = oldGroups[0];
 
-            app.Groups.Modify(0, newGroupData);
+            app.Groups.Modify(0, updatedGroup);
+
             Assert.AreEqual(oldGroups.Count, app.Groups.GetGroupCount());
 
             List<GroupData> newGroups = app.Groups.GetGroupList();
-            oldGroups[0].Name = newGroupData.Name;
+            oldGroups[0].Name = updatedGroup.Name;
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups.Count, newGroups.Count);
@@ -32,7 +43,7 @@ namespace WebAddressbookTests
             {
                 if(group.Id==oldData.Id)
                 {
-                    Assert.AreEqual(newGroupData.Name, group.Name);// сначала указываем ожидаемый результат, а затем фактический
+                    Assert.AreEqual(updatedGroup.Name, group.Name);// сначала указываем ожидаемый результат, а затем фактический
                 }
             }
         }
