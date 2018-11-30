@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebAddressbookTests
 {
-    public class ContactData : IEquatable<ContactData>
+    public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
         private string firstName;
         private string lastName;
@@ -43,7 +43,7 @@ namespace WebAddressbookTests
                 return true;
             }
 
-            return FirstName == other.FirstName && LastName==other.LastName ;
+            return LastName == other.LastName && FirstName==other.FirstName ;
         }
 
         public override int GetHashCode()//сначала для сравниваемых элементов получаются хешкоды и сравниваются хешкоды. если хешкоды разные, то сразу автоматически считается, что элементы не равны. если хешкоды совпали, то только тогда начинается более точное сравнение при помощи equals
@@ -59,14 +59,18 @@ namespace WebAddressbookTests
             return "first name=" + FirstName;
         }
 
-       // public int CompareTo(GroupData other)
-       // {
-       //     if (Object.ReferenceEquals(other, null))
-       //     {
-       //         return 1;
-       //     }
-       //     return FirstName.CompareTo(other.FirstName);
-       // }
+        public int CompareTo(ContactData other)
+        {
+            if (Object.ReferenceEquals(other, null))
+            {
+                return 1;
+            }
+            if (LastName.CompareTo(other.LastName)==1)
+            {
+                return FirstName.CompareTo(other.FirstName);
+            }
+            return LastName.CompareTo(other.LastName);
+        }
 
         public ContactData (string firstName, string lastName)
         {
@@ -332,6 +336,8 @@ namespace WebAddressbookTests
                 photo = value;
             }
         }
+
+        public string Id { get; set; }
 
     }
 }
