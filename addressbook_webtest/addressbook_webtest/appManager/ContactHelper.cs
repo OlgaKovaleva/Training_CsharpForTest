@@ -19,22 +19,28 @@ namespace WebAddressbookTests
             
         }
 
+        private List<ContactData> contactCache = null;
+
        public List<ContactData> GetContactList()
         {
-            List<ContactData> contacts = new List<ContactData>();
-            manager.Navigator.OpenHomePage();
-            ICollection<IWebElement> elements = driver.FindElements(By.XPath("//*[@id='maintable']/tbody/tr[@name='entry']")); //ICollection это более общий тип в отличие от списка
-            foreach (IWebElement element in elements)
-           {
-                string firstName = element.FindElement(By.XPath("./td[3]")).Text;
-                string lastName = element.FindElement(By.XPath("./td[2]")).Text;
-                string Id = element.FindElement(By.TagName("input")).GetAttribute("id");
-                contacts.Add(new ContactData(firstName, lastName)
-                    { Id = element.FindElement(By.TagName("input")).GetAttribute("id") });
+            if (contactCache == null)
+            {
+                contactCache = new List<ContactData>();
+                
+                manager.Navigator.OpenHomePage();
+                ICollection<IWebElement> elements = driver.FindElements(By.XPath("//*[@id='maintable']/tbody/tr[@name='entry']")); //ICollection это более общий тип в отличие от списка
+                foreach (IWebElement element in elements)
+                 {
+                    string firstName = element.FindElement(By.XPath("./td[3]")).Text;
+                    string lastName = element.FindElement(By.XPath("./td[2]")).Text;
+                    string Id = element.FindElement(By.TagName("input")).GetAttribute("id");
+                    contactCache.Add(new ContactData(firstName, lastName)
+                       { Id = element.FindElement(By.TagName("input")).GetAttribute("id") });
 
             
+                 }
             }
-            return contacts;
+            return new List<ContactData>(contactCache);
         }
 
         public ContactHelper Create(ContactData contact)
@@ -66,6 +72,7 @@ namespace WebAddressbookTests
             SelectContact(index);
             InitContactRemoval();
             ConfirmContactRemoval(removalConfirmation);
+            contactCache = null;
             manager.Navigator.OpenHomePage();
             return this;
         }
@@ -95,12 +102,14 @@ namespace WebAddressbookTests
         public ContactHelper UpdateContactForm()
         {
             driver.FindElement(By.Name("update")).Click();
+            contactCache = null;
             return this;
         }
 
         public ContactHelper SubmitContactForm()
         {
             driver.FindElement(By.Name("submit")).Click();
+            contactCache = null;
             return this;
         }
 
