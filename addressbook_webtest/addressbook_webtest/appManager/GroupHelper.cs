@@ -43,10 +43,20 @@ namespace WebAddressbookTests
                     {
                         Id= element.FindElement(By.TagName("input")).GetAttribute("value")
                 });
-                    
-                   
+                  
                 }
 
+                //string allGroupNames = driver.FindElement(By.CssSelector("div#content form")).Text;//div#contecnt - блок с нужным нам идентификатором и form
+                // string[] parts=allGroupNames.Split('\n');
+                //int shift=groupCache.Count-parts.Length;
+                //for(int i=0;i<groupCache.Count; i++)
+                //{
+                //if (i<shift)
+                //{
+                //    groupCache[i].Name = "";
+                //}
+                //groupCache[i].Name = parts[i-shift].Trim();  //удалит лишние пробельные символы в начале и в конце
+                //}
             }
             return new List<GroupData>(groupCache);//сам кеш возвращать нельзя, нужно возвращать его копию. Новый список посторенный из старого (кеша)
            

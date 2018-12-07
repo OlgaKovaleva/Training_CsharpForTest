@@ -43,6 +43,29 @@ namespace WebAddressbookTests
             return new List<ContactData>(contactCache);
         }
 
+        public ContactData GetContactInformationFromTable(int index)
+        {
+
+        }
+
+        public ContactData GetContactInformationFromEditForm(int index)
+        {
+            manager.Navigator.GoToHomePage();
+            SelectContact(index);
+            InitContactModification(index);
+            string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
+            string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
+            string address = driver.FindElement(By.Name("address")).GetAttribute("value");
+
+            string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
+            string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
+            string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
+            string email = driver.FindElement(By.Name("firstname")).GetAttribute("value");
+            string email2 = driver.FindElement(By.Name("firstname")).GetAttribute("value");
+            string email3 = driver.FindElement(By.Name("firstname")).GetAttribute("value");
+
+        }
+
         public ContactHelper Create(ContactData contact)
         {
             InitContactCreation();
