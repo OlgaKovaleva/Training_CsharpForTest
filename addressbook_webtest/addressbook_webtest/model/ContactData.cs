@@ -162,7 +162,7 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return CleanUp(HomeTelephone) + CleanUp(MobileTelephone) + CleanUp(WorkTelephone);
+                    return CleanUp(HomeTelephone) + CleanUp(MobileTelephone) + CleanUp(WorkTelephone)+CleanUp(HomeSecondary);
                 }
             }
             set
