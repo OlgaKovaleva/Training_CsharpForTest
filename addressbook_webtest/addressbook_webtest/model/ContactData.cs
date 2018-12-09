@@ -30,6 +30,8 @@ namespace WebAddressbookTests
         private string homeSecondary;
         private string notesSecondary;
         private string photo;
+        private string allTelephones;
+        private string allEmails;
 
         public bool Equals(ContactData other)
         {
@@ -65,7 +67,7 @@ namespace WebAddressbookTests
             {
                 return 1;
             }
-            if (LastName.CompareTo(other.LastName)==1)
+            if (LastName.CompareTo(other.LastName)==0)
             {
                 return FirstName.CompareTo(other.FirstName);
             }
@@ -147,6 +149,67 @@ namespace WebAddressbookTests
             set
             {
                 homeTelephone = value;
+            }
+        }
+
+        public string AllTelephones
+        {
+            get
+            {
+                if (allTelephones!= null)
+                {
+                    return CleanUp(allTelephones);
+                }
+                else
+                {
+                    return CleanUp(HomeTelephone) + CleanUp(MobileTelephone) + CleanUp(WorkTelephone);
+                }
+            }
+            set
+            {
+                allTelephones = value;
+            }
+        }
+
+        public string AllEmails
+        {
+            get
+            {
+                if (allEmails != null)
+                {
+                    return EmailCleanUp(allEmails);
+                }
+                else
+                {
+                    return EmailCleanUp(email) + EmailCleanUp(email2) + EmailCleanUp(email3);
+                }
+            }
+            set
+            {
+                allEmails = value;
+            }
+        }
+        private string CleanUp(string telephone)
+        {
+            if (telephone==null)
+            {
+                return "";
+            }
+            else
+            {
+                return telephone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace("\r", "").Replace("\n", "");
+            }
+        }
+
+        private string EmailCleanUp(string email)
+        {
+            if (email == null)
+            {
+                return "";
+            }
+            else
+            {
+                return email.Replace(" ", "").Replace("\r", "").Replace("\n", "");
             }
         }
 
