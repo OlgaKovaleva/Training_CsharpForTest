@@ -65,7 +65,7 @@ namespace WebAddressbookTests
         public ContactData GetContactInformationFromEditForm(int index)
         {
             manager.Navigator.OpenHomePage();
-            InitContactModification(index+1);
+            InitContactModification(index);
             string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
             string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
             string middleName = driver.FindElement(By.Name("middlename")).GetAttribute("value");
@@ -86,9 +86,9 @@ namespace WebAddressbookTests
             string addressSecondary = driver.FindElement(By.Name("address2")).GetAttribute("value");
             string notes = driver.FindElement(By.Name("notes")).GetAttribute("value");
             string birthday=GetContactBirthdayFromForm(index);
-            int age = GetContactAgeFromForm(index);
+            string age = GetContactAgeFromForm(index);
             string anniversary=GetContactAnniversaryFromForm(index);
-            int anniversaryPeriod = GetContactAnniversaryPeriodFromForm(index);
+            string anniversaryPeriod = GetContactAnniversaryPeriodFromForm(index);
 
 
 
@@ -169,7 +169,7 @@ namespace WebAddressbookTests
                 age = age - 1;
             }
             string ContactAge = age.ToString();
-            return ContactAge;
+            return "("+ContactAge+")";
         }
 
         public string GetContactAnniversaryFromForm(int index)
@@ -220,7 +220,7 @@ namespace WebAddressbookTests
                 anniversaryPeriod = anniversaryPeriod - 1;
             }
             string ContactAnniversaryPeriod= anniversaryPeriod.ToString();
-            return ContactAnniversaryPeriod;
+            return "("+ContactAnniversaryPeriod+")";
         }
 
         public string GetContactInformationFromDetails(int index)
@@ -258,7 +258,7 @@ namespace WebAddressbookTests
         public ContactHelper Modify(int index, ContactData contact)
         {
             manager.Navigator.OpenHomePage();
-            //SelectContact(index);
+            SelectContact(index);
             InitContactModification(index);
             FillContactForm(contact);
             UpdateContactForm();
@@ -268,24 +268,25 @@ namespace WebAddressbookTests
         public ContactHelper Remove(int index, bool removalConfirmation)
         {
             manager.Navigator.OpenHomePage();
-           // SelectContact(index);
+            SelectContact(index);
             InitContactRemoval(index);
             ConfirmContactRemoval(removalConfirmation);
-            contactCache = null;
+            
             manager.Navigator.OpenHomePage();
+            contactCache = null;
             return this;
         }
 
 
-        //public ContactHelper SelectContact(int index)
-       // {
-       //     driver.FindElement(By.XPath("(//*[@id='maintable']/tbody/tr/td[1])[" + index + "]")).Click();
-       //     return this;
-       // }
+        public ContactHelper SelectContact(int index)
+        {
+            driver.FindElement(By.XPath("(//*[@id='maintable']/tbody/tr/td[1])[" + (index+1)+ "]")).Click();
+            return this;
+        }
 
         public ContactHelper InitContactRemoval(int index)
         {
-            driver.FindElement(By.XPath("(//*[@id='maintable']/tbody/tr/td[1])[" + index + "]")).Click();
+            driver.FindElement(By.XPath("(//*[@id='maintable']/tbody/tr/td[1])[" + (index+1) + "]")).Click();
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
             return this;
         }

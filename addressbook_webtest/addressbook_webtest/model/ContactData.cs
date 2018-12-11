@@ -32,7 +32,8 @@ namespace WebAddressbookTests
         private string photo;
         private string allTelephones;
         private string allEmails;
-        //private string allContactData;
+        private string age;
+        private string anniversaryPeriod;
 
         public bool Equals(ContactData other)
         {
@@ -430,6 +431,23 @@ namespace WebAddressbookTests
                 age = value;
             }
         }
-        public string AnniversaryPeriod { get; set; }
+        public string AnniversaryPeriod
+        {
+            get
+            {
+                if (anniversaryPeriod != null)
+                {
+                    return anniversaryPeriod;
+                }
+                else
+                {
+                    return "(" + anniversaryPeriod + ")";
+                }
+            }
+            set
+            {
+                anniversaryPeriod = value;
+            }
+        }
     }
 }
