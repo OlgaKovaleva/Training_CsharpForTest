@@ -8,6 +8,8 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
+using System.Globalization;
+
 
 namespace WebAddressbookTests
 {
@@ -63,7 +65,6 @@ namespace WebAddressbookTests
         public ContactData GetContactInformationFromEditForm(int index)
         {
             manager.Navigator.OpenHomePage();
-            //SelectContact(index);
             InitContactModification(index+1);
             string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
             string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
@@ -84,10 +85,12 @@ namespace WebAddressbookTests
             string homepage = driver.FindElement(By.Name("homepage")).GetAttribute("value");
             string addressSecondary = driver.FindElement(By.Name("address2")).GetAttribute("value");
             string notes = driver.FindElement(By.Name("notes")).GetAttribute("value");
-            String selectedOption = new Select(driver.FindElement(By.Name("bday")).getFirstSelectedOption().
-            string bday = driver.FindElement(By.Name("bday")).FindElement(By.).GetAttribute("value");
-            string bmonth=
-            string byear = driver.FindElement(By.Name("byear")).GetAttribute("value");
+            string birthday=GetContactBirthdayFromForm(index);
+            int age = GetContactAgeFromForm(index);
+            string anniversary=GetContactAnniversaryFromForm(index);
+            int anniversaryPeriod = GetContactAnniversaryPeriodFromForm(index);
+
+
 
 
             return new ContactData(firstName, lastName)
@@ -107,22 +110,131 @@ namespace WebAddressbookTests
                 HomeSecondary=homeSecondary,
                 Email = email,
                 Email2=email2,
-                Email3=email3
+                Email3=email3,
+                Birthdate=birthday,
+                Anniversary=anniversary,
+                Age=age,
+                AnniversaryPeriod=anniversaryPeriod
             
             };
 
         }
 
-        public ContactData GetContactInformationFromDetails(int index)
+        public string GetContactBirthdayFromForm(int index)
+        {
+            manager.Navigator.OpenHomePage();
+            InitContactModification(index);
+          
+            SelectElement selectedBd = new SelectElement(driver.FindElement(By.Name("bday")));
+            string selectedBday = selectedBd.SelectedOption.Text;
+
+            if (selectedBday=="-")
+            {
+                return null;
+            }
+           
+            SelectElement selectedBm = new SelectElement(driver.FindElement(By.Name("bmonth")));
+            string selectedBmonth = selectedBm.SelectedOption.Text;
+
+            string selectedByear = driver.FindElement(By.Name("byear")).GetAttribute("value");
+           
+            DateTime birthdayDate=Convert.ToDateTime(selectedBday+selectedBmonth+selectedByear, CultureInfo.CurrentCulture );
+
+            string birthday = selectedBday + ". " + selectedBmonth + " " + selectedByear;
+
+            return birthday;
+
+        }
+
+        public string GetContactAgeFromForm(int index)
+        {
+            manager.Navigator.OpenHomePage();
+            InitContactModification(index);
+            SelectElement selectedBd = new SelectElement(driver.FindElement(By.Name("bday")));
+            string selectedBday = selectedBd.SelectedOption.Text;
+
+            if (selectedBday == "-")
+            {
+                return null;
+            }
+
+            SelectElement selectedBm = new SelectElement(driver.FindElement(By.Name("bmonth")));
+            string selectedBmonth = selectedBm.SelectedOption.Text;
+            string selectedByear = driver.FindElement(By.Name("byear")).GetAttribute("value");
+            DateTime birthdayDate = Convert.ToDateTime(selectedBday + selectedBmonth + selectedByear, CultureInfo.CurrentCulture);
+
+            int age = DateTime.Today.Year - birthdayDate.Year;
+            if (DateTime.Today.DayOfYear < birthdayDate.DayOfYear)
+            {
+                age = age - 1;
+            }
+            string ContactAge = age.ToString();
+            return ContactAge;
+        }
+
+        public string GetContactAnniversaryFromForm(int index)
+        {
+            manager.Navigator.OpenHomePage();
+            InitContactModification(index);
+            SelectElement selectedAd = new SelectElement(driver.FindElement(By.Name("aday")));
+            string selectedAday = selectedAd.SelectedOption.Text;
+
+            if (selectedAday == "-")
+            {
+                return null;
+            }
+
+            SelectElement selectedAm = new SelectElement(driver.FindElement(By.Name("amonth")));
+            string selectedAmonth = selectedAm.SelectedOption.Text;
+            
+            string selectedAyear = driver.FindElement(By.Name("ayear")).GetAttribute("value");
+
+
+            DateTime anniversaryDate = Convert.ToDateTime(selectedAday + selectedAmonth + selectedAyear, CultureInfo.CurrentCulture);
+
+            string anniversary = selectedAday + ". " + selectedAmonth + " " + selectedAyear;
+
+            return anniversary;
+        }
+
+        public string GetContactAnniversaryPeriodFromForm(int index)
+        {
+            manager.Navigator.OpenHomePage();
+            InitContactModification(index);
+            SelectElement selectedAd = new SelectElement(driver.FindElement(By.Name("aday")));
+            string selectedAday = selectedAd.SelectedOption.Text;
+
+            if (selectedAday == "-")
+            {
+                return null;
+            }
+
+            SelectElement selectedAm = new SelectElement(driver.FindElement(By.Name("amonth")));
+            string selectedAmonth = selectedAm.SelectedOption.Text;
+            string selectedAyear = driver.FindElement(By.Name("ayear")).GetAttribute("value");
+            DateTime anniversaryDate = Convert.ToDateTime(selectedAday + selectedAmonth + selectedAyear, CultureInfo.CurrentCulture);
+
+            int anniversaryPeriod = DateTime.Today.Year - anniversaryDate.Year;
+            if (DateTime.Today.DayOfYear < anniversaryDate.DayOfYear)
+            {
+                anniversaryPeriod = anniversaryPeriod - 1;
+            }
+            string ContactAnniversaryPeriod= anniversaryPeriod.ToString();
+            return ContactAnniversaryPeriod;
+        }
+
+        public string GetContactInformationFromDetails(int index)
         {
             manager.Navigator.OpenHomePage();
             InitContactDetails(index);
-           string details=driver.FindElement(By.Id("content")).Text;
+            string details=driver.FindElement(By.Id("content")).Text;
+            return details;
+
 
 
         }
 
-        public ContactData InitContactDetails(int index)
+        public ContactHelper InitContactDetails(int index)
         {
               driver.FindElements(By.Name("entry"))[index]
                   .FindElements(By.TagName("td"))[6]
@@ -216,8 +328,8 @@ namespace WebAddressbookTests
 
         public ContactHelper InitContactModification(int index)
         {
-            driver.FindElement(By.XPath("(//*[@id='maintable']/tbody/tr/td[1])[" + index + "]")).Click();
-            driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + index + "]")).Click();
+            driver.FindElement(By.XPath("(//*[@id='maintable']/tbody/tr/td[1])[" + (index +1)+ "]")).Click();
+            driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + (index+1) + "]")).Click();
           //  driver.FindElements(By.Name("entry"))[index]
           //      .FindElements(By.TagName("td"))[7]
            //     .FindElement(By.TagName("a")).Click;

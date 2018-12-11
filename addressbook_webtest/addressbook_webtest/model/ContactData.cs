@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebAddressbookTests
 {
-    public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
+    public class ContactData : IEquatable<ContactData>, IComparable<ContactData>, IFormatProvider
     {
         private string firstName;
         private string lastName;
@@ -32,6 +32,7 @@ namespace WebAddressbookTests
         private string photo;
         private string allTelephones;
         private string allEmails;
+        //private string allContactData;
 
         public bool Equals(ContactData other)
         {
@@ -60,6 +61,8 @@ namespace WebAddressbookTests
         {
             return "first name=" + FirstName;
         }
+
+       
 
         public int CompareTo(ContactData other)
         {
@@ -171,6 +174,7 @@ namespace WebAddressbookTests
             }
         }
 
+  
         public string AllEmails
         {
             get
@@ -181,7 +185,7 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return EmailCleanUp(email) + EmailCleanUp(email2) + EmailCleanUp(email3);
+                    return EmailCleanUp(Email) + EmailCleanUp(Email2) + EmailCleanUp(Email3);
                 }
             }
             set
@@ -211,6 +215,13 @@ namespace WebAddressbookTests
             {
                 return email.Replace(" ", "").Replace("\r", "").Replace("\n", "");
             }
+        }
+
+        public object GetFormat(Type formatType)
+        {
+            if (formatType == typeof(ICustomFormatter))
+                return this;
+            else return null;
         }
 
         public string MobileTelephone
@@ -401,6 +412,24 @@ namespace WebAddressbookTests
         }
 
         public string Id { get; set; }
-
+        public string Age
+        {
+            get
+            {
+                if (age != null)
+                {
+                    return age;
+                }
+                else
+                {
+                    return "("+Age+")";
+                }
+            }
+            set
+            {
+                age = value;
+            }
+        }
+        public string AnniversaryPeriod { get; set; }
     }
 }
