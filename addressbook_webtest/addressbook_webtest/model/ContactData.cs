@@ -60,7 +60,7 @@ namespace WebAddressbookTests
 
         public override string ToString()
         {
-            return "first name=" + FirstName;
+            return "first name=" + FirstName+"last name="+LastName;
         }
 
        
