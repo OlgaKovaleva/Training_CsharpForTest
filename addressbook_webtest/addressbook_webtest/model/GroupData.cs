@@ -48,6 +48,11 @@ namespace WebAddressbookTests
             return Name.CompareTo(other.Name);
         }
 
+        public GroupData()
+        {
+            
+        }
+
         public GroupData(string name)
         {
             this.name = name;

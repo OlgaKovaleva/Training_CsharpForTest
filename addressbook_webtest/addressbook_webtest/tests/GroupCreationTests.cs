@@ -1,8 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using NUnit.Framework;
+using System.Xml;
+using System.Xml.Serialization;
 using System.Collections.Generic;
 
 
@@ -11,6 +14,31 @@ namespace WebAddressbookTests
     [TestFixture]
     public class GroupCreationTests: AuthTestBase
     {
+        public static IEnumerable<GroupData> GroupDataFromCsvFile()
+        {
+            List<GroupData> groups = new List<GroupData>();
+            string[] lines = File.ReadAllLines(@"groups.csv"); //возвращаемое значение - массив
+            foreach (string l in lines)
+            {
+                string[] parts=l.Split(',');
+                groups.Add(new GroupData(parts[0])
+                {
+                    Header=parts[1],
+                    Footer=parts[2]
+                });
+            }
+            return groups;
+        }
+
+        public static IEnumerable<GroupData> GroupDataFromXmlFile()
+        {
+            List<GroupData> groups = new List<GroupData>();
+            return (List<GroupData>) 
+                new XmlSerializer(typeof(List<GroupData>))
+                .Deserialize(new StreamReader(@"groups.xml"));
+            
+        }
+
         public static IEnumerable<GroupData> RandomGroupDataProvider()
         {
             List<GroupData> groups = new List<GroupData>();
@@ -26,7 +54,7 @@ namespace WebAddressbookTests
             return groups;
         }
 
-        [Test, TestCaseSource("RandomGroupDataProvider")]
+        [Test, TestCaseSource("GroupDataFromXmlFile")]
         public void GroupCreationTest(GroupData group)
         {
            
