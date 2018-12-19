@@ -84,6 +84,11 @@ namespace WebAddressbookTests
             this.lastName = lastName;
         }
 
+        public ContactData()
+        {
+            
+        }
+
         public string MiddleName
         {
             get
@@ -423,7 +428,7 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return "("+Age+")";
+                    return "("+age+")";
                 }
             }
             set
