@@ -454,5 +454,7 @@ namespace WebAddressbookTests
                 anniversaryPeriod = value;
             }
         }
+
+        
     }
 }

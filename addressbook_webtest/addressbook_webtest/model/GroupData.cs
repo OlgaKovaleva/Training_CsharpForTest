@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LinqToDB.Mapping;
 
 namespace WebAddressbookTests
 {
-   public class GroupData : IEquatable<GroupData>, IComparable<GroupData> //объект типа GroupData можно сравнивать с другими объектами такого типа
+    [Table(Name = "group_list")]
+    public class GroupData : IEquatable<GroupData>, IComparable<GroupData> //объект типа GroupData можно сравнивать с другими объектами такого типа
     {
         private string name;
         private string header;
@@ -48,6 +50,14 @@ namespace WebAddressbookTests
             return Name.CompareTo(other.Name);
         }
 
+        public static List<GroupData> GetAll()
+        {
+            using (AddressBookDB db = new AddressBookDB()) //устанавлили соедининение, а дальше идут запросы
+            {
+                return (from g in db.Groups select g).ToList();
+            }
+        }
+
         public GroupData()
         {
             
@@ -58,6 +68,7 @@ namespace WebAddressbookTests
             this.name = name;
         }
 
+        [Column (Name= "group_name"), NotNull] //  NotNull на мне важен, можно не писать, т.к. мы писать ничего не будем туда, только читать
         public string Name
         {
             get
@@ -70,6 +81,7 @@ namespace WebAddressbookTests
             }
         }
 
+        [Column(Name = "group_header")]
         public string Header
         {
             get
@@ -83,6 +95,7 @@ namespace WebAddressbookTests
             }
         }
 
+        [Column(Name = "group_footer")]
         public string Footer
         {
             get
@@ -95,6 +108,7 @@ namespace WebAddressbookTests
             }
         }
 
+        [Column(Name = "group_id"), PrimaryKey, Identity]
         public string Id { get; set; }
     }
 }
