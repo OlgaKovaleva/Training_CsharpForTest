@@ -115,10 +115,10 @@
     <None Include="group.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="groups.json">
+    <None Include="groups.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="groups.xlsx">
+    <None Include="groups.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="LinqToDB.Templates\DataAnnotations.ttinclude" />
