@@ -102,6 +102,7 @@
     <Compile Include="simple_examples\Square.cs" />
     <Compile Include="tests\GroupTestBase.cs" />
     <Compile Include="tests\LoginTests.cs" />
+    <Compile Include="tests\RemovalContactFromGroupTests.cs" />
     <Compile Include="tests\SearchTests.cs" />
     <Compile Include="tests\TestBase.cs" />
     <Compile Include="simple_examples\TestMethods.cs" />

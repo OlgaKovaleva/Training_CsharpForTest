@@ -56,6 +56,7 @@ namespace WebAddressbookTests
             oldContacts.Sort();
             newContacts.Sort();
             Assert.AreEqual(oldContacts.Count, newContacts.Count);
+
         }
 
     }

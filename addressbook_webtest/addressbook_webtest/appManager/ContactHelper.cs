@@ -248,6 +248,18 @@ namespace WebAddressbookTests
 
         }
 
+        public void RemoveContactFromGroup(ContactData contact, GroupData group)
+        {
+            manager.Navigator.OpenHomePage();
+            SelectGroupInFilter(group.Name);
+            SelectContact(contact.Id);
+            InitRemovalFromGroup();
+            
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+                .Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+
+        }
+
         private void CommitAddingContactToGroup()
         {
             driver.FindElement(By.Name("add")).Click();
@@ -263,12 +275,25 @@ namespace WebAddressbookTests
             new SelectElement(driver.FindElement(By.Name("group"))).SelectByText("[all]");
         }
 
+        public void SelectGroupInFilter(string groupName)
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText(groupName);
+        }
+
+
+
         public ContactHelper InitContactDetails(int index)
         {
               driver.FindElements(By.Name("entry"))[index]
                   .FindElements(By.TagName("td"))[6]
                  .FindElement(By.TagName("a")).Click();
             return this;
+        }
+
+        public void InitRemovalFromGroup()
+        {
+            driver.FindElement(By.Name("remove")).Click();
+           
         }
 
         public ContactHelper Create(ContactData contact)
@@ -329,7 +354,7 @@ namespace WebAddressbookTests
 
         public ContactHelper SelectContact(int index)
         {
-            driver.FindElement(By.XPath("(//*[@id='maintable']/tbody/tr/td[1])[" + (index+1)+ "]")).Click();
+            driver.FindElement(By.XPath("(//*[@id='maintable']/tbody/tr/td[1])[" + (index + 1) + "]")).Click();
             return this;
         }
 
@@ -342,12 +367,12 @@ namespace WebAddressbookTests
         //public void SelectContact(string ContactId)
         //{
         //    driver.FindElement(By.Id(ContactId)).Click();
-            
+
         //}
 
         public ContactHelper InitContactRemoval(int index)
         {
-            driver.FindElement(By.XPath("(//*[@id='maintable']/tbody/tr/td[1])[" + (index+1) + "]")).Click();
+            //driver.FindElement(By.XPath("(//*[@id='maintable']/tbody/tr/td[1])[" + (index+1) + "]")).Click();
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
             Assert.IsTrue(Regex.IsMatch(CloseAlertAndGetItsText(), "^Delete 1 addresses[\\s\\S]$"));
             acceptNextAlert = true;
@@ -356,7 +381,7 @@ namespace WebAddressbookTests
 
         public ContactHelper InitContactRemoval(string id)
         {
-            driver.FindElement(By.XPath("(//input[@name='selected[]' and @id='" + id + "'])")).Click();
+            //driver.FindElement(By.XPath("(//input[@name='selected[]' and @id='" + id + "'])")).Click();
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
             Assert.IsTrue(Regex.IsMatch(CloseAlertAndGetItsText(), "^Delete 1 addresses[\\s\\S]$"));
             acceptNextAlert = true;
