@@ -14,7 +14,8 @@ namespace WebAddressbookTests
     {
         protected IWebDriver driver;
         protected ApplicationManager manager;
-        
+        public bool acceptNextAlert = true;
+
         public HelperBase(ApplicationManager manager)//конструктор хелпера
         {
             this.manager = manager;
@@ -48,7 +49,7 @@ namespace WebAddressbookTests
         }
 
 
-        public string CloseAlertAndGetItsText(bool acceptNextAlert)
+        public string CloseAlertAndGetItsText()
         {
             try
             {

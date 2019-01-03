@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LinqToDB.Mapping;
 
 namespace WebAddressbookTests
 {
+    [Table(Name ="addressbook")]
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>, IFormatProvider
     {
         private string firstName;
@@ -78,6 +80,14 @@ namespace WebAddressbookTests
             return LastName.CompareTo(other.LastName);
         }
 
+        public static List<ContactData> GetAll()
+        {
+            using (AddressBookDB db = new AddressBookDB()) //устанавлили соедининение, а дальше идут запросы
+            {
+                return (from c in db.Contacts.Where(x=> x.Deprecated == "0000-00-00-00 00:00:00") select c).ToList(); //лямбда выражения, т.е. в where анонимная функция
+            }
+        }
+
         public ContactData (string firstName, string lastName)
         {
             this.firstName = firstName;
@@ -89,6 +99,10 @@ namespace WebAddressbookTests
             
         }
 
+        [Column(Name = "deprecated")]
+        public string Deprecated { get; set;  }
+
+        [Column(Name ="middlename")]
         public string MiddleName
         {
             get
@@ -101,6 +115,7 @@ namespace WebAddressbookTests
             }
         }
 
+        [Column(Name = "nickname")]
         public string Nickname
         {
             get
@@ -113,6 +128,7 @@ namespace WebAddressbookTests
             }
         }
 
+        [Column(Name = "title")]
         public string Title
         {
             get
@@ -125,6 +141,7 @@ namespace WebAddressbookTests
             }
         }
 
+        [Column(Name = "company")]
         public string Company
         {
             get
@@ -137,6 +154,7 @@ namespace WebAddressbookTests
             }
         }
 
+        
         public string Address
         {
             get
@@ -381,6 +399,7 @@ namespace WebAddressbookTests
 
         }
 
+        [Column(Name = "firstname")]
         public string FirstName
         {
             get
@@ -393,6 +412,7 @@ namespace WebAddressbookTests
             }
         }
 
+        [Column(Name = "lastname")]
         public string LastName
         {
             get
@@ -417,6 +437,7 @@ namespace WebAddressbookTests
             }
         }
 
+        [Column(Name = "id"), PrimaryKey]
         public string Id { get; set; }
         public string Age
         {
