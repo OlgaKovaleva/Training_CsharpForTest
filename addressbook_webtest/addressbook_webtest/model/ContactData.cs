@@ -88,6 +88,16 @@ namespace WebAddressbookTests
             }
         }
 
+        //public List<GroupData> GetGroups()
+        //{
+        //    using (AddressBookDB db = new AddressBookDB()) //устанавлили соедининение, а дальше идут запросы
+        //    {
+        //        return (from g in db.Groups
+        //                from gcr in db.GCR.Where(p => p.ContactID == Id && p.GroupID == g.Id && g.Deprecated == "0000-00-00-00 00:00:00")
+        //                select g).Distinct().ToList();
+        //    }
+        //}
+
         public ContactData (string firstName, string lastName)
         {
             this.firstName = firstName;

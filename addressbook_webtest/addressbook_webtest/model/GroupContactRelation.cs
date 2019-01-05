@@ -16,4 +16,6 @@ namespace WebAddressbookTests
         [Column(Name = "id")]
         public string ContactID { get; }
     }
+
+   
 }

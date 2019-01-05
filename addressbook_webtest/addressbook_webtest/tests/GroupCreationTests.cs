@@ -118,24 +118,45 @@ namespace WebAddressbookTests
             //List<GroupData> fromDb = GroupData.GetAll();
             //finish = DateTime.Now;
             //System.Console.Out.WriteLine("From DB: " + finish.Subtract(start));
+            int groupCount = GroupData.GetAll().Count;
+            System.Console.Out.Write(groupCount);
+            foreach (GroupData group in GroupData.GetAll())
+            {
+                int contactCountOfGroup = group.GetContacts().Count;
+                if (contactCountOfGroup > 0)
+                { System.Console.Out.Write(group.Id); }
+                else break;
+            }
+
+
 
             //foreach (ContactData contact in GroupData.GetAll()[0].GetContacts())
             //{
             //    System.Console.Out.Write("Контакты " + contact);
             //}
 
-            foreach (ContactData contact in ContactData.GetAll())
-            {
-                if (contact.Id=="74")
-                {
-                    ContactData updatedContact = new ContactData("updated FirstName new", "updated LastName new");
-                    app.Contacts.Modify(contact, updatedContact);
-                }
-            }
 
+
+
+            //List<GroupData> groups = GroupData.GetAll();
+            //int groupCount = groups.Count;
+            //GroupData group = new GroupData();
+            //group.Id=53
+
+            //for (int i=0;i<groupCount; i++)
+            //{
+            //    if (groups[i].GetContacts().Count>1)
+            //    {
+            //        System.Console.Out.WriteLine(groups[i].Id);
+            //    }
+            //}
+           
            
 
-          
+
+
+
+
 
         }
 

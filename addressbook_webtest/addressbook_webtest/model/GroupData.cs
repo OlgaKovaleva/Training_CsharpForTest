@@ -77,6 +77,9 @@ namespace WebAddressbookTests
             this.name = name;
         }
 
+        [Column(Name = "deprecated")]
+        public string Deprecated { get; set; }
+
         [Column (Name= "group_name"), NotNull] //  NotNull на мне важен, можно не писать, т.к. мы писать ничего не будем туда, только читать
         public string Name
         {

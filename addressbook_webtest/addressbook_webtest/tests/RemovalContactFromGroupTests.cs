@@ -13,19 +13,34 @@ namespace WebAddressbookTests
         [Test]
         public void TestRemovalContactFromGroup()
         {
-            GroupData group = GroupData.GetAll()[0];
-            List<ContactData> oldList = group.GetContacts();
-            ContactData contactToRemove = ContactData.GetAll().Except(oldList).First();
+            //preparation
 
-            app.Contacts.RemoveContactFromGroup(contactToRemove, group);
 
-            //List<ContactData> newList = group.GetContacts();
-            //oldList.Add(contactToAdd);
-            //newList.Sort();
-            //oldList.Sort();
+            //пробегаться по группе и проверять, что в ней есть хотя бы 1 контакт
+            int groupCount = GroupData.GetAll().Count;
+            
+            foreach (GroupData group in GroupData.GetAll())
+            {
+                int contactCountOfGroup = group.GetContacts().Count;
+                if (contactCountOfGroup > 0)
+                {
+                    ContactData contactToRemove = group.GetContacts().First();
+                    List<ContactData> oldList = group.GetContacts();
 
-            //Assert.AreEqual(oldList, newList);
+                    //action
+                    app.Contacts.RemoveContactFromGroup(contactToRemove, group);
 
+                    //checks
+                    List<ContactData> newList = group.GetContacts();
+                    oldList.Remove(contactToRemove);
+                    newList.Sort();
+                    oldList.Sort();
+
+                    Assert.AreEqual(oldList, newList);
+                }
+                else break;
+            }
+           
         }
     }
 }
