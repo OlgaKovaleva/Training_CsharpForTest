@@ -179,6 +179,7 @@ namespace WebAddressbookTests
 
         public bool CheckGroupExistence()
         {
+            manager.Navigator.OpenGroupsPage();
             return IsElementPresent(By.ClassName("group"));
             
         }

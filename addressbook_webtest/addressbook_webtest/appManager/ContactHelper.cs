@@ -440,7 +440,15 @@ namespace WebAddressbookTests
 
         public bool CheckContactExistence()
         {
+            manager.Navigator.OpenHomePage();
             return IsElementPresent(By.Name("entry"));
+        }
+
+        public bool CheckContactExistenceInCurrentGroup(ContactData contact, GroupData group)
+        {
+            manager.Navigator.OpenHomePage();
+            SelectGroupInFilter(group.Name);
+            return IsElementPresent(By.XPath("(//input[@name='selected[]' and @id='" + contact.Id + "'])"));
         }
 
         public int GetNumberOfSearchResults()
